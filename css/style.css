@@ -35,9 +35,11 @@ body {
     font-size: 25px;
     color: rgba(255, 255, 255, .795)
 }
-/* .bigger {
+.bigger {
     font-size: 45px;
-} */
+    color: white;
+    transition: all 1s;
+}
 .span-two {
     grid-column: span 2;
 }
