@@ -9,7 +9,7 @@ body {
     justify-content: center;
     align-content: center;
     min-height: 100px;
-    grid-template-columns: repeat(4, 100px);
+    grid-template-columns: repeat(4, 120px);
     grid-template-rows: minmax(120px, auto) repeat(6, 100px);
     margin-top: 50px;
 }
@@ -35,6 +35,9 @@ body {
     font-size: 25px;
     color: rgba(255, 255, 255, .795)
 }
+/* .bigger {
+    font-size: 45px;
+} */
 .span-two {
     grid-column: span 2;
 }
