@@ -18,27 +18,45 @@ body {
     background-color: rgba(0, 0, 0, 0.95);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: flex-end;
-    padding: 10px 15px;
+    padding: 0 15px;
     height: 300px;
+    max-height: 300px;
+}
+.output-history::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0;
+  display: none !important;
+  background: transparent;
 }
 .output-history {
+    max-height: 90px;
     font-size: 20px;
-    color: rgba(255, 255, 255, .6)
+    color: rgba(255, 255, 255, .6);
+    text-align: right;
+    overflow: scroll;   
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 .output-current {
     font-size: 35px;
-    color: rgba(255, 255, 255, .95)
+    color: rgba(255, 255, 255, .95);
+    text-align: right;
 }
 .output-result {
     font-size: 25px;
-    color: rgba(255, 255, 255, .795)
+    color: rgba(255, 255, 255, .795);
+    text-align: right;
 }
-/* .bigger {
+.bigger {
     font-size: 45px;
-} */
-
+} * {
+    color: white;
+    transition: all 1s;
+}
 .span-two {
     grid-column: span 2;
 }
@@ -46,6 +64,7 @@ button {
     font-size: 30px;
     background-color: rgba(247, 217, 255, 0.895);
     border: 1px solid rgb(173, 12, 173);
+    color: black;
 }
 button:hover {
     background-color: rgba(248, 229, 253, 0.995);
@@ -59,3 +78,56 @@ button:focus {
     background-color: rgba(144, 44, 172, 0.895);
     color: white;
 }
+
+
+.fadeIn{
+    animation-name: fadeIn;
+    -webkit-animation-name: fadeIn; 
+ 
+    animation-duration: 1.5s; 
+    -webkit-animation-duration: 1.5s;
+ 
+    animation-timing-function: ease-in-out; 
+    -webkit-animation-timing-function: ease-in-out;     
+ 
+    visibility: visible !important; 
+}
+ 
+@keyframes fadeIn {
+    0% {
+        transform: scale(0);
+        opacity: 0.0;       
+    }
+    60% {
+        transform: scale(1.1);  
+    }
+    80% {
+        transform: scale(0.9);
+        opacity: 1; 
+    }   
+    100% {
+        transform: scale(1);
+        opacity: 1; 
+    }       
+}
+ 
+@-webkit-keyframes fadeIn {
+    0% {
+        -webkit-transform: scale(0);
+        opacity: 0.0;       
+    }
+    60% {
+        -webkit-transform: scale(1.1);
+    }
+    80% {
+        -webkit-transform: scale(0.9);
+        opacity: 1; 
+    }   
+    100% {
+        -webkit-transform: scale(1);
+        opacity: 1; 
+    }       
+}
+
+
+
