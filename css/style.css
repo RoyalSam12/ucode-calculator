@@ -38,6 +38,7 @@ body {
 /* .bigger {
     font-size: 45px;
 } */
+
 .span-two {
     grid-column: span 2;
 }
@@ -53,4 +54,8 @@ button:hover {
 button:focus {
     outline: none;
     box-shadow: none;
+}
+.equals {
+    background-color: rgba(144, 44, 172, 0.895);
+    color: white;
 }
