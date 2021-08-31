@@ -12,6 +12,7 @@ class Calculator {
         this.changeBtn = document.querySelector('.change');
         this.result = 0;
         this.equation = '';
+        this.factorial = document.querySelector('.factorial')
     };
     calculateEquation() {
         let array = this.equation.trim().split(' ')
@@ -133,6 +134,19 @@ function turnOnClick(bool) {
                 calculator.calculateEquation();
             }
         }
+        calculator.factorial.onclick = function() {
+            let tempArray = calculator.equation.split(' ')
+            let lastElement = parseInt(tempArray[tempArray.length-1])
+            if (lastElement) {
+                let factorialed = 1;
+                for (i = 0; i < lastElement; i++){
+                    factorialed = factorialed * (lastElement - i);
+                }
+                tempArray[tempArray.length-1] = factorialed; // don't know how to add '!' to number ::: '+ "!"' didn't work
+                calculator.equation = tempArray.join(' ')
+                calculator.calculateEquation();
+            }
+        }
 
     } else {
         calculator.numberBtns.forEach((item) => {
@@ -150,6 +164,8 @@ function turnOnClick(bool) {
         calculator.change.onclick = function() {};
 
         calculator.percent.onclick = function() {};
+
+        calculator.factorial.onclick = function() {};
     };
 };
 
