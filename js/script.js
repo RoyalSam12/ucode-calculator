@@ -1,30 +1,31 @@
 class Calculator {
     constructor() {
-        this.numberBtns = document.querySelectorAll('.number');
-        this.operationBtns = document.querySelectorAll('.operation');
         this.outputHistory= document.querySelector('.output-history');
         this.outputCurrent = document.querySelector('.output-current')
         this.outputRessult = document.querySelector('.output-result')
-        this.percent = document.querySelector('.percent')
-        this.change = document.querySelector('.change')
-        this.equalsBtn = document.querySelector('.equals');
-        this.clearBtn = document.querySelector('.clear');
-        this.changeBtn = document.querySelector('.change');
         this.result = 0;
         this.equation = '';
-
-        this.factorial = document.querySelector('.factorial');
-        this.exponentiation = document.querySelector('.exponentiation');
-        this.squareRoot = document.querySelector('.square-root');
-        this.P = document.querySelector('.P');
+        this.buttons = {
+            numberBtns: document.querySelectorAll('.number'),
+            operationBtns: document.querySelectorAll('.operation'),
+            percent: document.querySelector('.percent'), 
+            change: document.querySelector('.change'),
+            equalsBtn: document.querySelector('.equals'),
+            clearBtn: document.querySelector('.clear'),
+            changeBtn: document.querySelector('.change'),
+            factorial: document.querySelector('.factorial'),
+            exponentiation: document.querySelector('.exponentiation'),
+            squareRoot: document.querySelector('.square-root'),
+            P: document.querySelector('.P')
+        }
     };
     calculateEquation() {
         let array = this.equation.trim().split(' ')
-        let operators = ['÷', '*', '-', '+', '^​'];
+        let operators = ['÷', '*', '-', '+'];
         for (let operator of operators) {
             while(array.includes(operator))  {
-                let firstItem = parseFloat(array[array.indexOf(operator)-1]);
-                let secondItem = parseFloat(array[array.indexOf(operator)+1]);
+                let firstItem = parseFloat(array[array.indexOf(operator) - 1]);
+                let secondItem = parseFloat(array[array.indexOf(operator) + 1]);
                 let result;
                 switch(operator) {
                     case '*':
@@ -39,9 +40,6 @@ class Calculator {
                     case '+':
                         result = parseFloat(firstItem + secondItem);
                         break;
-                    // case '^':
-                    //     result = parseFloat(firstItem ** secondItem); // Cannot add exponentiation to output
-                    //     break;
 
                 };
                 array.splice(array.indexOf(operator) - 1, 1);
@@ -56,7 +54,7 @@ class Calculator {
         return array[0]
     };
     clearCalculator() {
-        this.equation = new String();
+        this.equation = '';
         this.calculateEquation();
         this.outputRessult.innerText = '';
         this.outputHistory.lastChild.scrollIntoView(false);
@@ -96,19 +94,19 @@ function calculatorClick() {
 
 function turnOnClick(bool) {
     if (bool) {
-        calculator.numberBtns.forEach((item) => {
+        calculator.buttons.numberBtns.forEach((item) => {
             item.onclick = function() {
                 calculator.equation += item.innerText
                 calculator.calculateEquation()
             };
         });
         
-        calculator.operationBtns.forEach((item) => {
+        calculator.buttons.operationBtns.forEach((item) => {
             item.onclick = function() {
                 if (calculator.equation || calculator.equation[0] == '0') {
                     calculator.equation += ` ${item.innerText} `
                 };
-                if (['÷', '*', '-', '+', '^'].includes(calculator.equation.slice(-5,-4))) {
+                if (['÷', '*', '-', '+'].includes(calculator.equation.slice(-5,-4))) {
                     calculator.equation = spliceSplit(
                         calculator.equation, calculator.equation.length - 5,
                         1, calculator.equation.slice(-2,-1)
@@ -119,12 +117,12 @@ function turnOnClick(bool) {
             };
         });
 
-        calculator.clearBtn.onclick = function() {
+        calculator.buttons.clearBtn.onclick = function() {
             calculator.clearCalculator();
 
         };
 
-        calculator.equalsBtn.onclick = function() {
+        calculator.buttons.equalsBtn.onclick = function() {
             calculator.outputRessult.classList.add('bigger');
             turnOnClick(false);
             allButton.forEach((item) => {
@@ -132,7 +130,7 @@ function turnOnClick(bool) {
             });
         };
 
-        calculator.change.onclick = function() {
+        calculator.buttons.change.onclick = function() {
             let tempArray = calculator.equation.split(' ')
             let lastElement = parseFloat(tempArray[tempArray.length-1])
             if (lastElement) {
@@ -141,7 +139,7 @@ function turnOnClick(bool) {
                 calculator.calculateEquation();
             }
         }
-        calculator.percent.onclick = function() {
+        calculator.buttons.percent.onclick = function() {
             let tempArray = calculator.equation.split(' ')
             let lastElement = parseInt(tempArray[tempArray.length-1])
             if (lastElement) {
@@ -151,58 +149,59 @@ function turnOnClick(bool) {
                 calculator.calculateEquation();
             }
         }
-        calculator.factorial.onclick = function() {
+        calculator.buttons.factorial.onclick = function() {
             let tempArray = calculator.equation.split(' ')
             let lastElement = parseInt(tempArray[tempArray.length-1])
             if (lastElement) {
-                let factorialed = 1;
-                for (i = 0; i < lastElement; i++){
-                    factorialed = factorialed * (lastElement - i);
-                }
-                tempArray[tempArray.length-1] = factorialed; // don't know how to add '!' to number ::: '+ "!"' didn't work
+                // let factorialed = 1;
+                // for (i = 0; i < lastElement; i++){
+                //     factorialed = factorialed * (lastElement - i);   ПРОТОТИП
+                // }
+                tempArray[tempArray.length-1] = lastElement + '!';
                 calculator.equation = tempArray.join(' ')
                 calculator.calculateEquation();
             }
         }
-        // calculator.exponentiation.onclick = function() {
-        //     let tempArray = calculator.equation.split(' ')
-        //     let lastElement = parseInt(tempArray[tempArray.length-1])
-        //     if (lastElement) {
-        //         let exponentiationed = Math.pow(lastElement, 2);
-        //         tempArray[tempArray.length-1] = exponentiationed
-        //         calculator.equation = tempArray.join(' ')
-        //         calculator.calculateEquation();
-        //     }
-        // }
-        calculator.squareRoot.onclick = function() {
+
+        calculator.buttons.squareRoot.onclick = function() {
             let tempArray = calculator.equation.split(' ')
             let lastElement = parseInt(tempArray[tempArray.length-1])
             if (lastElement) {
-                let squared = Math.sqrt(lastElement)
-                tempArray[tempArray.length-1] = squared
+                // let squared = Math.sqrt(lastElement)
+                tempArray[tempArray.length-1] = '√' + lastElement
+                calculator.equation = tempArray.join(' ')
+                calculator.calculateEquation();
+            }
+        }
+        calculator.buttons.exponentiation.onclick = function() {
+            let tempArray = calculator.equation.split(' ')
+            let lastElement = parseInt(tempArray[tempArray.length-1])
+            if (lastElement) {
+                // let exponentiationed = Math.pow(lastElement, 2);
+                tempArray[tempArray.length - 1] = lastElement + '^'
                 calculator.equation = tempArray.join(' ')
                 calculator.calculateEquation();
             }
         }
 
     } else {
-        calculator.numberBtns.forEach((item) => {
+        calculator.buttons.numberBtns.forEach((item) => {
             item.onclick = function() {};
         });
         
-        calculator.operationBtns.forEach((item) => {
+        calculator.buttons.operationBtns.forEach((item) => {
             item.onclick = function() {};
         });
 
-        calculator.clearBtn.onclick = function() {};
+        calculator.buttons.clearBtn.onclick = function() {};
 
-        calculator.equalsBtn.onclick = function() {};
+        calculator.buttons.equalsBtn.onclick = function() {};
 
-        calculator.change.onclick = function() {};
+        calculator.buttons.change.onclick = function() {};
 
-        calculator.percent.onclick = function() {};
+        calculator.buttons.percent.onclick = function() {};
 
-        calculator.factorial.onclick = function() {};
+        calculator.buttons.factorial.onclick = function() {};
 
     };
 };
