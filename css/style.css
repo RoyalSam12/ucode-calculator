@@ -10,7 +10,7 @@ body {
     align-content: center;
     min-height: 100px;
     grid-template-columns: repeat(4, 120px);
-    grid-template-rows: minmax(120px, auto) repeat(6, 100px);
+    grid-template-rows: minmax(120px, auto) repeat(7, 100px);
     margin-top: 50px;
 }
 .output {
@@ -97,6 +97,10 @@ button:focus {
     visibility: visible !important; 
 }
  
+.hide {
+    display: none;
+}
+
 @keyframes fadeIn {
     0% {
         transform: scale(0);

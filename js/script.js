@@ -12,10 +12,15 @@ class Calculator {
         this.changeBtn = document.querySelector('.change');
         this.result = 0;
         this.equation = '';
+
+        this.factorial = document.querySelector('.factorial');
+        this.exponentiation = document.querySelector('.exponentiation');
+        this.squareRoot = document.querySelector('.square-root');
+        this.P = document.querySelector('.P');
     };
     calculateEquation() {
         let array = this.equation.trim().split(' ')
-        let operators = ['÷', '*', '-', '+'];
+        let operators = ['÷', '*', '-', '+', '^​'];
         for (let operator of operators) {
             while(array.includes(operator))  {
                 let firstItem = parseFloat(array[array.indexOf(operator)-1]);
@@ -34,6 +39,10 @@ class Calculator {
                     case '+':
                         result = parseFloat(firstItem + secondItem);
                         break;
+                    // case '^':
+                    //     result = parseFloat(firstItem ** secondItem); // Cannot add exponentiation to output
+                    //     break;
+
                 };
                 array.splice(array.indexOf(operator) - 1, 1);
                 array.splice(array.indexOf(operator) + 1, 1, result);
@@ -52,11 +61,20 @@ class Calculator {
         this.outputRessult.innerText = '';
         this.outputHistory.lastChild.scrollIntoView(false);
     }
+
+    showAdditionalOperators() {
+        document.querySelector('.more').addEventListener('click', () => {
+            document.querySelectorAll('.add').forEach(item => {
+                item.classList.toggle('hide')
+            })
+        })
+    }
 };
 
 const calculator = new Calculator();
 let allButton = document.querySelectorAll('button');
 
+calculator.showAdditionalOperators()
 
 calculator.calculateEquation()
 turnOnClick(true)
@@ -90,7 +108,7 @@ function turnOnClick(bool) {
                 if (calculator.equation || calculator.equation[0] == '0') {
                     calculator.equation += ` ${item.innerText} `
                 };
-                if (['÷', '*', '-', '+'].includes(calculator.equation.slice(-5,-4))) {
+                if (['÷', '*', '-', '+', '^'].includes(calculator.equation.slice(-5,-4))) {
                     calculator.equation = spliceSplit(
                         calculator.equation, calculator.equation.length - 5,
                         1, calculator.equation.slice(-2,-1)
@@ -133,6 +151,39 @@ function turnOnClick(bool) {
                 calculator.calculateEquation();
             }
         }
+        calculator.factorial.onclick = function() {
+            let tempArray = calculator.equation.split(' ')
+            let lastElement = parseInt(tempArray[tempArray.length-1])
+            if (lastElement) {
+                let factorialed = 1;
+                for (i = 0; i < lastElement; i++){
+                    factorialed = factorialed * (lastElement - i);
+                }
+                tempArray[tempArray.length-1] = factorialed; // don't know how to add '!' to number ::: '+ "!"' didn't work
+                calculator.equation = tempArray.join(' ')
+                calculator.calculateEquation();
+            }
+        }
+        // calculator.exponentiation.onclick = function() {
+        //     let tempArray = calculator.equation.split(' ')
+        //     let lastElement = parseInt(tempArray[tempArray.length-1])
+        //     if (lastElement) {
+        //         let exponentiationed = Math.pow(lastElement, 2);
+        //         tempArray[tempArray.length-1] = exponentiationed
+        //         calculator.equation = tempArray.join(' ')
+        //         calculator.calculateEquation();
+        //     }
+        // }
+        calculator.squareRoot.onclick = function() {
+            let tempArray = calculator.equation.split(' ')
+            let lastElement = parseInt(tempArray[tempArray.length-1])
+            if (lastElement) {
+                let squared = Math.sqrt(lastElement)
+                tempArray[tempArray.length-1] = squared
+                calculator.equation = tempArray.join(' ')
+                calculator.calculateEquation();
+            }
+        }
 
     } else {
         calculator.numberBtns.forEach((item) => {
@@ -150,6 +201,9 @@ function turnOnClick(bool) {
         calculator.change.onclick = function() {};
 
         calculator.percent.onclick = function() {};
+
+        calculator.factorial.onclick = function() {};
+
     };
 };
 
@@ -159,17 +213,24 @@ function spliceSplit(str, index, count, add) {
     return ar.join('');
   }
 
+function makeAnimation() {
+    for (let btn of allButton) {
+        btn.classList.add('fadeIn');
+    }
+    document.querySelector('.output').classList.add('fadeIn');
+}
+makeAnimation();
 
 // ДЖС НЕ ТРОГАЙ
 // Осталось пофиксить баги с + в конце в истории
 // Любой символ после перегрузки
 
 // JS has been changed
-// добавил строчку в метод clearCalculator() и снизу маленькая анимация :) 
-// animation
-for (let btn of allButton) {
-    btn.classList.add('fadeIn');
-}
-document.querySelector('.output').classList.add('fadeIn');
+// Сделал факториал. Работает, но не отображается, что это факториал
+// Такая же история с коренем
+// остальное не работает
+
+
+
 
 
