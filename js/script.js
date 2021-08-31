@@ -12,11 +12,13 @@ class Calculator {
         this.changeBtn = document.querySelector('.change');
         this.result = 0;
         this.equation = '';
-        this.factorial = document.querySelector('.factorial')
+        this.factorial = document.querySelector('.factorial');
+        this.exponentiation = document.querySelector('.exponentiation');
+        this.squareRoot = document.querySelector('.square-root');
     };
     calculateEquation() {
         let array = this.equation.trim().split(' ')
-        let operators = ['÷', '*', '-', '+'];
+        let operators = ['÷', '*', '-', '+', '^​'];
         for (let operator of operators) {
             while(array.includes(operator))  {
                 let firstItem = parseFloat(array[array.indexOf(operator)-1]);
@@ -35,6 +37,10 @@ class Calculator {
                     case '+':
                         result = parseFloat(firstItem + secondItem);
                         break;
+                    case '^':
+                        result = parseFloat(firstItem ** secondItem); // Cannot add exponentiation to output
+                        break;
+
                 };
                 array.splice(array.indexOf(operator) - 1, 1);
                 array.splice(array.indexOf(operator) + 1, 1, result);
@@ -91,7 +97,7 @@ function turnOnClick(bool) {
                 if (calculator.equation || calculator.equation[0] == '0') {
                     calculator.equation += ` ${item.innerText} `
                 };
-                if (['÷', '*', '-', '+'].includes(calculator.equation.slice(-5,-4))) {
+                if (['÷', '*', '-', '+', '^'].includes(calculator.equation.slice(-5,-4))) {
                     calculator.equation = spliceSplit(
                         calculator.equation, calculator.equation.length - 5,
                         1, calculator.equation.slice(-2,-1)
@@ -147,6 +153,26 @@ function turnOnClick(bool) {
                 calculator.calculateEquation();
             }
         }
+        // calculator.exponentiation.onclick = function() {
+        //     let tempArray = calculator.equation.split(' ')
+        //     let lastElement = parseInt(tempArray[tempArray.length-1])
+        //     if (lastElement) {
+        //         let exponentiationed = Math.pow(lastElement, 2);
+        //         tempArray[tempArray.length-1] = exponentiationed
+        //         calculator.equation = tempArray.join(' ')
+        //         calculator.calculateEquation();
+        //     }
+        // }
+        calculator.squareRoot.onclick = function() {
+            let tempArray = calculator.equation.split(' ')
+            let lastElement = parseInt(tempArray[tempArray.length-1])
+            if (lastElement) {
+                let squared = Math.sqrt(lastElement)
+                tempArray[tempArray.length-1] = squared
+                calculator.equation = tempArray.join(' ')
+                calculator.calculateEquation();
+            }
+        }
 
     } else {
         calculator.numberBtns.forEach((item) => {
@@ -166,6 +192,7 @@ function turnOnClick(bool) {
         calculator.percent.onclick = function() {};
 
         calculator.factorial.onclick = function() {};
+
     };
 };
 
