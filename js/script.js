@@ -164,8 +164,8 @@ function spliceSplit(str, index, count, add) {
 // Осталось пофиксить баги с + в конце в истории
 // Любой символ после перегрузки
 
-// JS has been changed!!!
-// добавил строчку в clearCalculator() метод и снизу маленькая анимация :) 
+// JS has been changed
+// добавил строчку в метод clearCalculator() и снизу маленькая анимация :) 
 // animation
 for (let btn of allButton) {
     btn.classList.add('fadeIn');
