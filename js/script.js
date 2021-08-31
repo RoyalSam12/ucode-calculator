@@ -16,6 +16,8 @@ class Calculator {
             factorial: document.querySelector('.factorial'),
             exponentiation: document.querySelector('.exponentiation'),
             squareRoot: document.querySelector('.square-root'),
+            square: document.querySelector('.square'),
+            cube: document.querySelector('.cube'),
             P: document.querySelector('.P')
         }
     };
@@ -24,6 +26,8 @@ class Calculator {
         let operators = ['÷', '*', '-', '+'];
         for (let operator of operators) {
             while(array.includes(operator))  {
+                console.log(array[array.indexOf(operator) - 1])
+                console.log(array[array.indexOf(operator) + 1])
                 let firstItem = parseFloat(array[array.indexOf(operator) - 1]);
                 let secondItem = parseFloat(array[array.indexOf(operator) + 1]);
                 let result;
@@ -47,7 +51,7 @@ class Calculator {
                 array.splice(array.indexOf(operator), 1);
             };
         };
-        this.outputCurrent.innerText = this.equation
+        this.outputCurrent.innerText = this.equation.split(' ').join('')
         if (array[0] || array[0] == '0') {
             this.outputRessult.innerText = array[0]
         };
@@ -80,7 +84,7 @@ turnOnClick(true)
 
 function calculatorClick() {
     let partOfHistory = document.createElement('p')
-    partOfHistory.innerText = calculator.equation
+    partOfHistory.innerText = calculator.equation.split(' ').join('') + ` = ${calculator.calculateEquation()}`
     calculator.outputHistory.append(partOfHistory)
     calculator.clearCalculator()
     allButton.forEach((item) => {
@@ -96,15 +100,29 @@ function turnOnClick(bool) {
     if (bool) {
         calculator.buttons.numberBtns.forEach((item) => {
             item.onclick = function() {
-                calculator.equation += item.innerText
-                calculator.calculateEquation()
+                let array = calculator.equation.trim().split(' ')
+                if (item.innerText == '.' && array[array.length - 1].slice(-1) == '.') {
+                } else if (item.innerText == '.' && array[0].length == 0 || item.innerText == '.' && ['÷', '*', '-', '+'].includes(array[array.length - 1])) {
+                        calculator.equation += '0' + item.innerText
+                } else {
+                    calculator.equation += item.innerText
+                };
+                calculator.calculateEquation();
             };
         });
         
         calculator.buttons.operationBtns.forEach((item) => {
             item.onclick = function() {
                 if (calculator.equation || calculator.equation[0] == '0') {
-                    calculator.equation += ` ${item.innerText} `
+                    let array = calculator.equation.trim().split(' ')
+                    let lastElementSymbol = array[array.length-1].slice(-1)
+                    if(lastElementSymbol == '.' || lastElementSymbol == '√') {
+                        calculator.equation += `0 ${item.innerText} `
+                    } else if (lastElementSymbol == '^') {
+                        calculator.equation += `1 ${item.innerText} `
+                    } else {
+                        calculator.equation += ` ${item.innerText} `
+                    }
                 };
                 if (['÷', '*', '-', '+'].includes(calculator.equation.slice(-5,-4))) {
                     calculator.equation = spliceSplit(
@@ -123,11 +141,14 @@ function turnOnClick(bool) {
         };
 
         calculator.buttons.equalsBtn.onclick = function() {
-            calculator.outputRessult.classList.add('bigger');
-            turnOnClick(false);
-            allButton.forEach((item) => {
-                item.addEventListener('click', calculatorClick);
-            });
+            let array = calculator.equation.trim().split(' ')
+            if (!['÷', '*', '-', '+'].includes(array[array.length-1])) {
+                calculator.outputRessult.classList.add('bigger');
+                turnOnClick(false);
+                allButton.forEach((item) => {
+                    item.addEventListener('click', calculatorClick);
+                });
+            };
         };
 
         calculator.buttons.change.onclick = function() {
@@ -220,14 +241,9 @@ function makeAnimation() {
 }
 makeAnimation();
 
-// ДЖС НЕ ТРОГАЙ
-// Осталось пофиксить баги с + в конце в истории
-// Любой символ после перегрузки
+function numberUpgrade(string){
 
-// JS has been changed
-// Сделал факториал. Работает, но не отображается, что это факториал
-// Такая же история с коренем
-// остальное не делал
+}
 
 
 
