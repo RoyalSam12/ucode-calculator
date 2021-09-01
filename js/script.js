@@ -26,10 +26,17 @@ class Calculator {
         let operators = ['÷', '*', '-', '+'];
         for (let operator of operators) {
             while(array.includes(operator))  {
-                console.log(array[array.indexOf(operator) - 1])
-                console.log(array[array.indexOf(operator) + 1])
-                let firstItem = parseFloat(array[array.indexOf(operator) - 1]);
-                let secondItem = parseFloat(array[array.indexOf(operator) + 1]);
+                if (array[array.indexOf(operator) - 1]) {
+                    var firstItem = numberUpgrade(array[array.indexOf(operator) - 1]);
+                } else {
+                    var firstItem = parseFloat(array[array.indexOf(operator) - 1]);
+                }
+                if (array[array.indexOf(operator) + 1]) {
+                    var secondItem = numberUpgrade(array[array.indexOf(operator) + 1]);
+                } else {
+                    var secondItem = parseFloat(array[array.indexOf(operator) + 1]);
+                }
+                
                 let result;
                 switch(operator) {
                     case '*':
@@ -44,7 +51,7 @@ class Calculator {
                     case '+':
                         result = parseFloat(firstItem + secondItem);
                         break;
-
+                    
                 };
                 array.splice(array.indexOf(operator) - 1, 1);
                 array.splice(array.indexOf(operator) + 1, 1, result);
@@ -53,9 +60,9 @@ class Calculator {
         };
         this.outputCurrent.innerText = this.equation.split(' ').join('')
         if (array[0] || array[0] == '0') {
-            this.outputRessult.innerText = array[0]
+            this.outputRessult.innerText = '=' +numberUpgrade(array[0])
         };
-        return array[0]
+        return numberUpgrade(array[0])
     };
     clearCalculator() {
         this.equation = '';
@@ -142,6 +149,11 @@ function turnOnClick(bool) {
 
         calculator.buttons.equalsBtn.onclick = function() {
             let array = calculator.equation.trim().split(' ')
+            let lastElementSymbol = array[array.length-1].slice(-1)
+                    if (lastElementSymbol == '^') {
+                        calculator.equation += '1'
+                        calculator.calculateEquation();
+                    }
             if (!['÷', '*', '-', '+'].includes(array[array.length-1])) {
                 calculator.outputRessult.classList.add('bigger');
                 turnOnClick(false);
@@ -174,11 +186,7 @@ function turnOnClick(bool) {
             let tempArray = calculator.equation.split(' ')
             let lastElement = parseInt(tempArray[tempArray.length-1])
             if (lastElement) {
-                // let factorialed = 1;
-                // for (i = 0; i < lastElement; i++){
-                //     factorialed = factorialed * (lastElement - i);   ПРОТОТИП
-                // }
-                tempArray[tempArray.length-1] = lastElement + '!';
+                tempArray[tempArray.length-1] = lastElement + '! + ';
                 calculator.equation = tempArray.join(' ')
                 calculator.calculateEquation();
             }
@@ -188,8 +196,7 @@ function turnOnClick(bool) {
             let tempArray = calculator.equation.split(' ')
             let lastElement = parseInt(tempArray[tempArray.length-1])
             if (lastElement) {
-                // let squared = Math.sqrt(lastElement)
-                tempArray[tempArray.length-1] = '√' + lastElement
+                tempArray[tempArray.length-1] = '√' + lastElement + ' + '
                 calculator.equation = tempArray.join(' ')
                 calculator.calculateEquation();
             }
@@ -198,7 +205,6 @@ function turnOnClick(bool) {
             let tempArray = calculator.equation.split(' ')
             let lastElement = parseInt(tempArray[tempArray.length-1])
             if (lastElement) {
-                // let exponentiationed = Math.pow(lastElement, 2);
                 tempArray[tempArray.length - 1] = lastElement + '^'
                 calculator.equation = tempArray.join(' ')
                 calculator.calculateEquation();
@@ -241,10 +247,35 @@ function makeAnimation() {
 }
 makeAnimation();
 
-function numberUpgrade(string){
-
-}
-
+function numberUpgrade(string) {
+    if (typeof(string) != String) {
+        string = string.toString()
+    }
+    let symbolArray = ['!', '^' , '√']
+    if (string.includes('!') || string.includes('^') || string.includes('√')) {
+        let symbol;
+        for (let j = 0; j < symbolArray.length; j++) {
+            if (string.indexOf(symbolArray[j]) != -1) {
+                symbol = symbolArray[j]
+            };
+        };
+        switch(symbol) {
+          case '√':
+            return Math.sqrt(parseFloat(string.slice(1)))
+          case '^': 
+            string = string.split('^')
+            return Math.pow(parseFloat(string[0]), parseFloat(string[1]))
+          case '!':
+            let factorialed = 1;
+            for (i = 0; i < parseFloat(string); i++){
+                  factorialed = factorialed * (parseFloat(string) - i);
+            }
+            return factorialed
+        }
+    } else {
+        return parseFloat(string);
+    }
+  }
 
 
 
