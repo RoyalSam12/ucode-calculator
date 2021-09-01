@@ -241,9 +241,9 @@ function spliceSplit(str, index, count, add) {
 
 function makeAnimation() {
     for (let btn of allButton) {
-        btn.classList.add('fadeIn');
+        btn.classList.add('slideUp');
     }
-    document.querySelector('.output').classList.add('fadeIn');
+    document.querySelector('.output').classList.add('slideUp');
 }
 makeAnimation();
 
