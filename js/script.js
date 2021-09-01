@@ -215,20 +215,11 @@ function spliceSplit(str, index, count, add) {
 
 function makeAnimation() {
     for (let btn of allButton) {
-        btn.classList.add('fadeIn');
+        btn.classList.add('slideUp');
     }
-    document.querySelector('.output').classList.add('fadeIn');
+    document.querySelector('.output').classList.add('slideUp');
 }
 makeAnimation();
-
-// ДЖС НЕ ТРОГАЙ
-// Осталось пофиксить баги с + в конце в истории
-// Любой символ после перегрузки
-
-// JS has been changed
-// Сделал факториал. Работает, но не отображается, что это факториал
-// Такая же история с коренем
-// остальное не делал
 
 
 
