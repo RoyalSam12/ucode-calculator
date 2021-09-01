@@ -18,7 +18,8 @@ class Calculator {
             squareRoot: document.querySelector('.square-root'),
             square: document.querySelector('.square'),
             cube: document.querySelector('.cube'),
-            P: document.querySelector('.P')
+            P: document.querySelector('.P'),
+            mc: document.querySelector('.mc')
         }
     };
     calculateEquation() {
@@ -148,19 +149,22 @@ function turnOnClick(bool) {
         };
 
         calculator.buttons.equalsBtn.onclick = function() {
-            let array = calculator.equation.trim().split(' ')
-            let lastElementSymbol = array[array.length-1].slice(-1)
-                    if (lastElementSymbol == '^') {
-                        calculator.equation += '1'
-                        calculator.calculateEquation();
-                    }
-            if (!['÷', '*', '-', '+'].includes(array[array.length-1])) {
-                calculator.outputRessult.classList.add('bigger');
-                turnOnClick(false);
-                allButton.forEach((item) => {
-                    item.addEventListener('click', calculatorClick);
-                });
-            };
+            if (calculator.equation) {
+                let array = calculator.equation.trim().split(' ')
+                let lastElementSymbol = array[array.length-1].slice(-1)
+                        if (lastElementSymbol == '^') {
+                            calculator.equation += '1'
+                            calculator.calculateEquation();
+                        }
+                if (!['÷', '*', '-', '+'].includes(array[array.length-1])) {
+                    calculator.outputRessult.classList.add('bigger');
+                    turnOnClick(false);
+                    allButton.forEach((item) => {
+                        item.addEventListener('click', calculatorClick);
+                    });
+                };
+            } 
+            
         };
 
         calculator.buttons.change.onclick = function() {
@@ -174,7 +178,7 @@ function turnOnClick(bool) {
         }
         calculator.buttons.percent.onclick = function() {
             let tempArray = calculator.equation.split(' ')
-            let lastElement = parseInt(tempArray[tempArray.length-1])
+            let lastElement = numberUpgrade(tempArray[tempArray.length-1])
             if (lastElement) {
                 let procented = (calculator.calculateEquation() + lastElement) / 100 * lastElement;
                 tempArray[tempArray.length-1] = procented
@@ -191,7 +195,6 @@ function turnOnClick(bool) {
                 calculator.calculateEquation();
             }
         }
-
         calculator.buttons.squareRoot.onclick = function() {
             let tempArray = calculator.equation.split(' ')
             let lastElement = parseInt(tempArray[tempArray.length-1])
@@ -210,26 +213,42 @@ function turnOnClick(bool) {
                 calculator.calculateEquation();
             }
         }
+        calculator.buttons.square.onclick = function(){
+            let tempArray = calculator.equation.split(' ')
+            let lastElement = parseInt(tempArray[tempArray.length-1])
+            if (lastElement) {
+                tempArray[tempArray.length - 1] = Math.pow(numberUpgrade(lastElement), 2)
+                calculator.equation = tempArray.join(' ')
+                calculator.calculateEquation();
+            }
+        }
+        calculator.buttons.cube.onclick = function(){
+            let tempArray = calculator.equation.split(' ')
+            let lastElement = parseInt(tempArray[tempArray.length-1])
+            if (lastElement) {
+                tempArray[tempArray.length - 1] = Math.pow(numberUpgrade(lastElement), 3)
+                calculator.equation = tempArray.join(' ')
+                calculator.calculateEquation();
+            }
+        }
+        calculator.buttons.P.onclick = function(){
+            calculator.equation += '3.14159'
+            calculator.calculateEquation();
+        }
+        calculator.buttons.mc.onclick = function(){
+            calculator.outputHistory.innerHTML = ''
+        }
 
     } else {
-        calculator.buttons.numberBtns.forEach((item) => {
-            item.onclick = function() {};
-        });
-        
-        calculator.buttons.operationBtns.forEach((item) => {
-            item.onclick = function() {};
-        });
-
-        calculator.buttons.clearBtn.onclick = function() {};
-
-        calculator.buttons.equalsBtn.onclick = function() {};
-
-        calculator.buttons.change.onclick = function() {};
-
-        calculator.buttons.percent.onclick = function() {};
-
-        calculator.buttons.factorial.onclick = function() {};
-
+        for (button in calculator.buttons){
+            if (calculator.buttons[button].length) {
+                calculator.buttons[button].forEach((item) => {
+                    item.onclick = function() {};
+                }) 
+            } else {
+                calculator.buttons[button].onclick = function() {};
+            }
+        }
     };
 };
 
