@@ -190,7 +190,7 @@ function turnOnClick(bool) {
             let tempArray = calculator.equation.split(' ')
             let lastElement = parseInt(tempArray[tempArray.length-1])
             if (lastElement) {
-                tempArray[tempArray.length-1] = lastElement + '! + ';
+                tempArray[tempArray.length-1] = lastElement + '!';
                 calculator.equation = tempArray.join(' ')
                 calculator.calculateEquation();
             }
@@ -199,7 +199,7 @@ function turnOnClick(bool) {
             let tempArray = calculator.equation.split(' ')
             let lastElement = parseInt(tempArray[tempArray.length-1])
             if (lastElement) {
-                tempArray[tempArray.length-1] = '√' + lastElement + ' + '
+                tempArray[tempArray.length-1] = '√' + lastElement
                 calculator.equation = tempArray.join(' ')
                 calculator.calculateEquation();
             }
